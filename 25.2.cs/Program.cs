@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace _25._2.cs;
+﻿namespace _25._2.cs;
 
 internal class Program
 {
@@ -81,10 +79,6 @@ internal class Program
                         ulong num = increment * PowTen[seqLength - 1];
                         ulong numLoops = PowTen[seqLength] - PowTen[seqLength - 1]; // get 1000 - 100 = 900
 
-                        //int orderNum = OrderMag(num);
-                        //if (orderNum < lo || orderNum > ro)
-                        //    continue; // anti-bug, not what's happening.
-
                         if (num < left)
                         {
                             var skip = (left - num + increment - 1) / increment;
@@ -94,11 +88,8 @@ internal class Program
 
                         for (; num <= right && numLoops > 0; num += increment, numLoops--)
                         {
-                            //if (OrderMag(num) != orderNum)
-                            //    break; // anti-bug, not what's happening.
-                            if (num >= left && !set.Contains(num))
+                            if (!set.Contains(num))
                             {
-                                //Console.WriteLine($"{num}");
                                 if (0 == (numRpt % 2))
                                     agg += num; // solution 1 by itself
                                 else 
