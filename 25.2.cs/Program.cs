@@ -98,7 +98,7 @@ internal class Program
                             //    break; // anti-bug, not what's happening.
                             if (num >= left && !set.Contains(num))
                             {
-                                Console.WriteLine($"{num}");
+                                //Console.WriteLine($"{num}");
                                 if (0 == (numRpt % 2))
                                     agg += num; // solution 1 by itself
                                 else 
