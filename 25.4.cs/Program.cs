@@ -18,13 +18,14 @@ internal class Program
         int total = Solution(map);
         Console.WriteLine($"Part 1 solution: {total}");
 
+        total = 0; // restart progress and start marking up the map
         for (int progress; ; total += progress)
-            if (0 >= (progress = Solution(map)))
+            if (0 >= (progress = Solution(map, 'x')))
                 break;
 
         Console.WriteLine($"Part 2 solution: {total}");
 
-        int Solution(List<char[]> map)
+        int Solution(List<char[]> map, char changeFoundTo = Roll)
         {
             int total = 0;
             for (int y = 0; y < map.Count; y++)
@@ -53,7 +54,7 @@ internal class Program
                     if (ok)
                     {
                         total++;
-                        map[y][x] = 'x';
+                        map[y][x] = changeFoundTo;
                     }
                 }
             }
