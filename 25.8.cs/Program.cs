@@ -10,7 +10,7 @@ internal class Program
         Console.WriteLine("Hello, World! Day 8 here.\nPaste Input: ");
 
         List<Node> nodes = [];
-        for (string? line; !string.IsNullOrEmpty(line = Console.ReadLine()); )
+        for (string? line; !string.IsNullOrEmpty(line = Console.ReadLine());)
         {
             if (line == null || (line.Split(',') is not string[] pieces)
                 || !int.TryParse(pieces[0], out int x)
@@ -19,26 +19,17 @@ internal class Program
                 break;
             nodes.Add(new(x, y, z));
         }
+        List<Joiner> joiners = new((nodes.Count - 1) * (nodes.Count - 1));
+        for (int i = 0; i < nodes.Count - 1; i++)
+            for (int j = i + 1; j < nodes.Count; j++)
+                joiners.Add( new(i, j, nodes[i].Distance(nodes[j])) );
+        joiners.Sort((l, r) => l.Distance.CompareTo(r.Distance));
 
-        int lastLeft, lastRight;
-        for (int n = 0; ; )
+        int lastLeft = -1, lastRight = -1, n = 0;
+        foreach(var join in joiners)
         {
-            ulong bestDistance = ulong.MaxValue; // find closest pair that ain't linked
-            int left = -1, right = -1;
-            for (int i = 0; i < nodes.Count-1; i++)
-            {
-                for (int j = i+1; j < nodes.Count; j++)
-                {
-                    if (nodes[i].IsLinked(nodes[j]))
-                        continue; // not you
-                    var distance = nodes[i].Distance(nodes[j]);
-                    if (bestDistance > distance)
-                    {
-                        bestDistance = distance;
-                        (left, right) = (i, j);
-                    }
-                }
-            }
+            int left = join.Left;
+            int right = join.Right;
 
             // first update circuit counts
             nodes[left].Join(nodes[right]);
@@ -72,6 +63,11 @@ internal class Program
     }
 }
 
+sealed record Joiner(int l, int r, ulong dist) 
+{
+    public readonly int Left = l, Right = r; 
+    public readonly ulong Distance = dist; 
+}
 class Node
 {
     readonly public int X, Y, Z;
